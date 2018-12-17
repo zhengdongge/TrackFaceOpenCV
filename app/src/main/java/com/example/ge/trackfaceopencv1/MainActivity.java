@@ -12,7 +12,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Core;
+//import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
@@ -31,10 +31,6 @@ import static org.opencv.imgproc.Imgproc.rectangle;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener{
 
-    // Used to load the 'native-lib' library on application startup.
-    //static {
-    //    System.loadLibrary("native-lib");
-    //}
 
     private CameraBridgeViewBase openCvCameraView;
     private CascadeClassifier cascadeClassifier;
@@ -60,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         try{
             InputStream is = getResources().openRawResource(R.raw.lbpcascade_frontalface);
             File casadeDir = getDir("cascade", Context.MODE_PRIVATE);
-            File mCascadeFile = new File(casadeDir,"lbpcascade_frontalface.xml");
+            File mCascadeFile = new File(casadeDir,"lbpcascade_frontalface.xml");// in app/res/raw
             FileOutputStream os = new FileOutputStream(mCascadeFile);
 
             byte[] buffer = new byte[4096];
@@ -108,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     public void onCameraViewStopped(){
-
+        /* TODO */
     }
 
     @Override
@@ -124,14 +120,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         Rect[] faceArray = faces.toArray();
         for (int i = 0; i <faceArray.length; i++)
 
-            //原代码是Core.rectangle(aInputFrame, faceArray[i].tl(), faceArray[i].br(), new Scalar(0, 255, 0, 255), 3);
-            //但好像不行
+            //Core.rectangle(aInputFrame, faceArray[i].tl(), faceArray[i].br(), new Scalar(0, 255, 0, 255), 3);
+            //not working
 
             Imgproc.rectangle(aInputFrame, faceArray[i].tl(), faceArray[i].br(), new Scalar(0, 255, 0, 255), 3);
 
         return aInputFrame;
     }
 
+    /* For cameras
     /*
     @Override
     public void onResume(){
@@ -160,9 +157,4 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
     }
 
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    //public native String stringFromJNI();
 }
